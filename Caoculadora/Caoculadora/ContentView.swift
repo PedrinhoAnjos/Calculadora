@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var years: Int? = nil
+    @State var months: Int? = nil
+    
     var body: some View {
         VStack {
             ZStack {
@@ -31,9 +35,34 @@ struct ContentView: View {
                 }
                 .padding(24)
             }
-            Text("AuAuAuAu!")
-                .font(.largeTitle)
-                .bold()
+            VStack(alignment: .leading, spacing: 20){
+                HStack {
+                    Text("Qual é a idade do seu cão?")
+                        .font(.title2)
+                        .bold()
+                    Spacer()
+                }
+                VStack (alignment: .leading, spacing: 8) {
+                    Text("Anos")
+                        .font(.headline)
+                    
+                    TextField("Digite quantos anos seu cão tem", value: $years, format: .number)
+                        .textFieldStyle(.roundedBorder)
+                        .keyboardType(.numberPad)
+                        .frame(width: 348, height: 40)
+                        .foregroundColor(.blue)
+                    
+                    Text("Meses")
+                        .font(.headline)
+                    TextField("Digite quantos meses seu cão tem", value: $months, format: .number)
+                        .textFieldStyle(.roundedBorder)
+                        .keyboardType(.numberPad)
+                        .frame(width: 348, height: 40)
+                        .foregroundColor(.blue)
+                }
+            }
+            .padding(24)
+            
             HStack(spacing: 10){
                 Image(systemName: "dog.fill")
                     .resizable()

@@ -13,107 +13,101 @@ struct ContentView: View {
     
     
     var body: some View {
-        VStack {
-            ZStack {
-                Rectangle()
-                    .ignoresSafeArea(.all)
-                    .foregroundColor(color)
-                    .frame(height: 150)
-                HStack(spacing: 16) {
-                    Image(systemName: "dog.circle")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(.white)
-                        .padding(.top, 40)
-                    Text("Cãoculadora")
-                        .font(.header4)
-                        .foregroundColor(.white)
-                        .fontWeight(.heavy)
-                        .padding(.top, 40)
-                        .bold()
-                    Spacer()
-                }
-                .padding(24)
-            }
-            VStack(alignment: .leading, spacing: 20){
-                VStack(alignment: .leading, spacing: 8){
-                    HStack {
-                        Text("Qual é a idade do seu cão?")
-                            .foregroundColor(color)
-                            .font(.header5)
-                    }
-                }
-                VStack (alignment: .leading, spacing: 8) {
-                    Text("Anos")
-                        .foregroundColor(color)
-                        .font(.body1)
-                    ZStack{
-                        TextField("Digite quantos anos seu cão tem", value: $years, format: .number)
-                            .textFieldStyle(.roundedBorder)
-                            .keyboardType(.numberPad)
-                            .foregroundColor(.gray)
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(color2)
-                    }
-                }
+        NavigationStack {
+            VStack {
                 
-                VStack (alignment: .leading, spacing: 8) {
-                    Text("Meses")
-                        .foregroundColor(color)
-                        .font(.body1)
-                    ZStack{
-                        TextField("Digite quantos meses seu cão tem", value: $months, format: .number)
-                            .textFieldStyle(.roundedBorder)
-                            .keyboardType(.numberPad)
-                            .foregroundColor(.gray)
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(color2)
-                    }
-                }
-                
-                VStack(alignment: .leading, spacing: 8){
-                    Text("Porte")
-                        .foregroundColor(color)
-                        .font(.body1)
-                    Picker("Porte", selection: $porteSelecionado) {
-                        ForEach(Porte.allCases, id: \.self) { porte in
-                            Text(porte.rawValue.capitalized)
-                                .tag(porte)
+                VStack(alignment: .leading, spacing: 20.0){
+                    VStack(alignment: .leading, spacing: 8.0){
+                        HStack {
+                            Text("Qual é a idade do seu cão?")
+                                .foregroundColor(color)
+                                .font(.header5)
+                                .padding(.top, 24)
                         }
                     }
-                    .pickerStyle(.segmented)
-                    .colorMultiply(color2)
-                    .cornerRadius(8)
+                    VStack (alignment: .leading, spacing: 8.0) {
+                        Text("Anos")
+                            .foregroundColor(color)
+                            .font(.body1)
+                        ZStack{
+                            TextField("Digite quantos anos seu cão tem", value: $years, format: .number)
+                                .textFieldStyle(.roundedBorder)
+                                .keyboardType(.numberPad)
+                                .foregroundColor(.gray)
+                            RoundedRectangle(cornerRadius: 5)
+                                .stroke(color2)
+                        }
+                    }
+                    
+                    VStack (alignment: .leading, spacing: 8.0) {
+                        Text("Meses")
+                            .foregroundColor(color)
+                            .font(.body1)
+                        ZStack{
+                            TextField("Digite quantos meses seu cão tem", value: $months, format: .number)
+                                .textFieldStyle(.roundedBorder)
+                                .keyboardType(.numberPad)
+                                .foregroundColor(.gray)
+                            RoundedRectangle(cornerRadius: 5)
+                                .stroke(color2)
+                        }
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 8.0){
+                        Text("Porte")
+                            .foregroundColor(color)
+                            .font(.body1)
+                        Picker("Porte", selection: $porteSelecionado) {
+                            ForEach(Porte.allCases, id: \.self) { porte in
+                                Text(porte.rawValue.capitalized)
+                                    .tag(porte)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .colorMultiply(color2)
+                        .cornerRadius(8)
+                    }
                 }
+                .padding(24)
+                
+                if let result {
+                    Text("Seu cachorro tem, em idade humana...")
+                        .font(.body1)
+                        .foregroundColor(color)
+                        .frame(maxWidth: .infinity)
+                    Text("\(result)")
+                        .font(.display)
+                        .foregroundColor(color)
+                        .frame(maxWidth: .infinity)
+                } else {
+                    Image(.clarinha)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundColor(.white)
+                        .frame(width: 198.4, height: 150)
+                        .padding(.vertical, 40)
+                }
+                Button(action: processYears, label: {
+                    Text("Cãocula!")
+                        .font(.body1)
+                        .foregroundColor(.white)
+                })
+                .frame(width: 345, height: 50)
+                .background(color)
+                .cornerRadius(12)
+                .padding(.bottom, 24)
             }
-            .padding(24)
-            
-            if let result {
-                Text("Seu cachorro tem, em idade humana...")
-                    .font(.body1)
-                    .foregroundColor(color)
-                    .padding()
-                Text("\(result)")
-                    .font(.display)
-                    .foregroundColor(color)
-                    .padding(24)
-            } else {
-                Image(.clarinha)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .foregroundColor(.white)
-                    .frame(width: 198.4, height: 150)
-                    .padding(.vertical, 40)
-            }
-            Button(action: processYears, label: {
-                Text("Cãocula!")
-                    .font(.body1)
-                    .foregroundColor(.white)
-            })
-            .frame(width: 345, height: 50)
-            .background(color)
-            .cornerRadius(12)
-            .padding(.bottom, 24)
+            .textFieldStyle(.roundedBorder)
+            .keyboardType(.numberPad)
+            .bold()
+            .fontDesign(.rounded)
+            .padding()
+            .navigationTitle("Cãoculadora")
+            .toolbarBackground(
+            .visible, for:
+            .navigationBar)
+            .toolbarBackground(color, for: .navigationBar)
+            .toolbarColorScheme(.dark, for: .navigationBar)
         }
     }
     
